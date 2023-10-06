@@ -7,7 +7,8 @@ const ConfigSchema = z.object({
 	channels: z.array(z.string()).min(1),
 })
 
-type Config = z.infer<typeof ConfigSchema>
+export type Config = z.infer<typeof ConfigSchema>
+
 export function getConfig(path: string): Config | Error {
 	if (!fs.existsSync(path)) {
 		return new Error(`Config file doesn't exist: '${path}'`)

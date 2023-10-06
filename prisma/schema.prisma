@@ -7,11 +7,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model User {
+    id      BigInt    @id @default(autoincrement()) @db.BigInt
+    name    String
+    Message Message[]
+}
+
 model Message {
     id      BigInt   @id @default(autoincrement()) @db.BigInt
     message String
     channel String
-    name    String
-    user_id String
+    user    User     @relation(fields: [user_id], references: [id])
+    user_id BigInt   @db.BigInt
     time    DateTime
 }

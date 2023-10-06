@@ -10,8 +10,8 @@ services:
             POSTGRES_DB: lurker
             POSTGRES_USER: lurker
             POSTGRES_PASSWORD: ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl
-        ports:
-            - 5432:5432 ## to access this outside of the docker conatiner. enable this
+        # ports:
+        #     - 5432:5432 ## to access this outside of the docker conatiner. enable this
         healthcheck:
             test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "lurker"]
             timeout: 5s

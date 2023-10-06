@@ -1,14 +1,13 @@
 import tmi from "tmi.js"
 import dateFormat from "dateformat"
-import { getConfig } from "./config"
+import { Config, getConfig } from "./config"
 import { Storage } from "./storage"
 
-function start() {
-	const config = getConfig("./config.json")
+async function start(): Promise<Storage> {
+	const config: Config | Error = getConfig("./config.json")
 
 	if (config instanceof Error) {
-		console.error(config)
-		process.exit(1)
+		throw config
 	}
 
 	const { username, token, channels } = config
@@ -102,18 +101,30 @@ function start() {
 				return
 			}
 
+			let id: bigint
+			try {
+				id = BigInt(userState["user-id"])
+			} catch (e) {
+				return
+			}
+
 			storage
-				.save("message", {
-					message,
-					channel,
-					name: userState.username,
-					user_id: userState["user-id"],
-					time: new Date(),
-				})
+				.saveMessage(
+					{ name: userState.username, id },
+					{
+						message,
+						channel,
+						time: new Date(),
+					}
+				)
 				.then(() => {})
 				.catch(console.error)
 		}
 	)
+
+	return storage
 }
 
 start()
+	.then((st) => st.disconnect())
+	.catch(console.error)

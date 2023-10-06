@@ -1,6 +1,6 @@
 {
   "name": "twitch-lurker-bot",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A simple Twitch.tv chat lurker bot",
   "author": "bartosjiri <hi@bartosjiri.com>",
   "license": "ISC",

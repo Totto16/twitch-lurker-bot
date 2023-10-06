@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Prisma, PrismaClient, User } from "@prisma/client"
 
 export class Storage {
 	prisma: PrismaClient
@@ -6,9 +6,25 @@ export class Storage {
 		this.prisma = new PrismaClient()
 	}
 
-	async save(type: "message", data: Prisma.MessageCreateInput) {
+	async disconnect() {
+		await this.prisma.$disconnect()
+	}
+
+	async saveMessage(
+		user: Prisma.UserCreateInput,
+		message: Omit<Prisma.MessageCreateInput, "user">
+	) {
+		const newUser: User = await this.prisma.user.upsert({
+			where: { id: user.id },
+			update: user,
+			create: user,
+		})
+
 		await this.prisma.message.create({
-			data,
+			data: {
+				...message,
+				user: { connect: newUser },
+			},
 		})
 	}
 }
