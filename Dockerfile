@@ -1,8 +1,11 @@
-FROM node:lts-alpine
+FROM node:20-bookworm
 
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm ci
-COPY . .
+WORKDIR /app
+COPY tsconfig.json .
+COPY package.json .
+COPY src/ src/
 
-CMD ["node", "lurker.js"]
+RUN npm i
+RUN npm run build
+
+CMD ["node", "."]
