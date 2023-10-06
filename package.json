@@ -1,12 +1,13 @@
 {
   "name": "twitch-lurker-bot",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "A simple Twitch.tv chat lurker bot",
   "author": "bartosjiri <hi@bartosjiri.com>",
   "license": "ISC",
-  "main": "lurker.js",
+  "main": "build/lurker.js",
   "scripts": {
-    "start": "node lurker.js"
+    "start": "node .",
+    "build": "tsc"
   },
   "keywords": [
     "twitch",
@@ -21,6 +22,16 @@
   ],
   "dependencies": {
     "dateformat": "^4.4.1",
-    "tmi.js": "1.5.0"
+    "tmi.js": "1.8.5",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/dateformat": "^5.0.0",
+    "@types/node": "^20.8.2",
+    "@types/tmi.js": "^1.8.4",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

@@ -2,8 +2,10 @@
 node_modules/
 
 # Private configuration
-config.js
+config.json
 
 # Other
 .directory
 .github
+package-lock.json
+build/
