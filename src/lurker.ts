@@ -1,6 +1,7 @@
 import tmi from "tmi.js"
 import dateFormat from "dateformat"
 import { getConfig } from "./config"
+import { Storage } from "./storage"
 
 function start() {
 	const config = getConfig("./config.json")
@@ -25,6 +26,8 @@ function start() {
 		},
 		channels: channels,
 	}
+
+	const storage = new Storage()
 
 	const getCurrentTime = () => {
 		const d = new Date()
@@ -84,11 +87,31 @@ function start() {
 		"message",
 		(
 			channel: string,
-			userstate: tmi.ChatUserstate,
+			userState: tmi.ChatUserstate,
 			message: string,
-			self: boolean
+			_self: boolean
 		) => {
-			console.log(new Date(), channel, userstate, message, self)
+			if (
+				userState.username === undefined ||
+				userState["user-id"] === undefined
+			) {
+				console.error(
+					"UserState has not the whole needed information:",
+					userState
+				)
+				return
+			}
+
+			storage
+				.save("message", {
+					message,
+					channel,
+					name: userState.username,
+					user_id: userState["user-id"],
+					time: new Date(),
+				})
+				.then(() => {})
+				.catch(console.error)
 		}
 	)
 }

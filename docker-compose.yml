@@ -1,9 +1,41 @@
 version: "3.7"
 
 services:
+    db:
+        container_name: lurker_db
+        image: postgres:16
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: lurker
+            POSTGRES_USER: lurker
+            POSTGRES_PASSWORD: ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl
+        ports:
+            - 5432:5432 ## to access this outside of the docker conatiner. enable this
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "lurker"]
+            timeout: 5s
+            interval: 30s
+            retries: 3
+        networks:
+            main:
+                aliases:
+                    - db
+
     lurker:
+        container_name: lurker
         build:
             context: "."
         restart: unless-stopped
+        environment:
+            DATABASE_URL: postgresql://lurker:ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl@db/lurker
         volumes:
             - "./config.json:/app/config.json:ro"
+        networks:
+            - main
+
+volumes:
+    postgres_data:
+
+networks:
+    main:

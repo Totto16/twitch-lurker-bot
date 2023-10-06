@@ -1,6 +1,6 @@
 {
   "name": "twitch-lurker-bot",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "A simple Twitch.tv chat lurker bot",
   "author": "bartosjiri <hi@bartosjiri.com>",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "tmi"
   ],
   "dependencies": {
+    "@prisma/client": "^5.4.1",
     "dateformat": "^4.4.1",
     "tmi.js": "1.8.5",
     "zod": "^3.22.4"
@@ -29,6 +30,7 @@
     "@types/dateformat": "^5.0.0",
     "@types/node": "^20.8.2",
     "@types/tmi.js": "^1.8.4",
+    "prisma": "^5.4.1",
     "typescript": "^5.2.2"
   },
   "engines": {

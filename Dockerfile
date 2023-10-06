@@ -4,8 +4,10 @@ WORKDIR /app
 COPY tsconfig.json .
 COPY package.json .
 COPY src/ src/
+COPY prisma/ prisma/
 
 RUN npm i
+RUN npx prisma generate
 RUN npm run build
 
-CMD ["node", "."]
+ENTRYPOINT  npx prisma db push && node .
