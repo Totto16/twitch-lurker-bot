@@ -39,11 +39,10 @@ async function start(): Promise<Storage> {
 	})
 
 	client.on("join", (channel, username) => {
-		storage.saveLog({
+		storage.saveUserStateChange({
 			type: "join",
-			message: `user "${username}" joined channel "${channel.substring(
-				1
-			)}".`,
+			username,
+			channel,
 			time: new Date(),
 		})
 	})
@@ -57,11 +56,10 @@ async function start(): Promise<Storage> {
 	})
 
 	client.on("part", (channel, username) => {
-		storage.saveLog({
+		storage.saveUserStateChange({
 			type: "part",
-			message: `user "${username}" disconnected from channel "${channel.substring(
-				1
-			)}".`,
+			username,
+			channel,
 			time: new Date(),
 		})
 	})

@@ -13,4 +13,4 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: Build the Docker image
-              run: docker build . --tag twitch-lurker-bot:2.0.4 --tag twitch-lurker-bot:2.0 --tag twitch-lurker-bot:2 --tag twitch-lurker-bot:latest
+              run: docker build . --tag twitch-lurker-bot:2.0.5 --tag twitch-lurker-bot:2.0 --tag twitch-lurker-bot:2 --tag twitch-lurker-bot:latest

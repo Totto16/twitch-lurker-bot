@@ -26,9 +26,6 @@ enum LogType {
     logon
     reconnect
     disconnect
-
-    join
-    part
 }
 
 model LogEvent {
@@ -36,4 +33,17 @@ model LogEvent {
     type    LogType
     message String
     time    DateTime
+}
+
+enum UserState {
+    join
+    part
+}
+
+model UserStateChangeEvent {
+    id       BigInt    @id @default(autoincrement()) @db.BigInt
+    type     UserState
+    channel  String
+    time     DateTime
+    username String
 }
