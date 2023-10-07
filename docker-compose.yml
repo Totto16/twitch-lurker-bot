@@ -24,14 +24,20 @@ services:
         container_name: lurker_pgweb
         restart: always
         image: sosedoff/pgweb
+        entrypoint:
+            ["/usr/bin/pgweb", "--bind=0.0.0.0", "--listen=8081", "--readonly"]
+        healthcheck:
+            test: ["CMD", "nc", "-vz", "127.0.0.1", "8081"]
+            interval: 5s
         ports:
             - "8678:8081"
         environment:
-            DATABASE_URL: postgresql://lurker:ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl@db/lurker
-        depends_on:
-            - db
+            PGWEB_DATABASE_URL: postgresql://lurker:ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl@db/lurker?sslmode=disable
         networks:
             - main
+        depends_on:
+            db:
+                condition: service_healthy
 
     lurker:
         container_name: lurker
@@ -45,7 +51,8 @@ services:
         networks:
             - main
         depends_on:
-            - db
+            db:
+                condition: service_healthy
 
 volumes:
     postgres_data:
