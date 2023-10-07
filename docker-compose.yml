@@ -10,8 +10,6 @@ services:
             POSTGRES_DB: lurker
             POSTGRES_USER: lurker
             POSTGRES_PASSWORD: ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl
-        # ports:
-        #     - 5432:5432 ## to access this outside of the docker conatiner. enable this
         healthcheck:
             test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "lurker"]
             timeout: 5s
@@ -21,6 +19,19 @@ services:
             main:
                 aliases:
                     - db
+
+    pgweb:
+        container_name: lurker_pgweb
+        restart: always
+        image: sosedoff/pgweb
+        ports:
+            - "8678:8081"
+        environment:
+            DATABASE_URL: postgresql://lurker:ODU1ODlmYWE0MzkzZGRhMGU1MTllYTVl@db/lurker
+        depends_on:
+            - db
+        networks:
+            - main
 
     lurker:
         container_name: lurker
@@ -33,6 +44,8 @@ services:
             - "./config.json:/app/config.json:ro"
         networks:
             - main
+        depends_on:
+            - db
 
 volumes:
     postgres_data:
