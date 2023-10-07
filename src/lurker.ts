@@ -1,5 +1,4 @@
 import tmi from "tmi.js"
-import dateFormat from "dateformat"
 import { Config, getConfig } from "./config"
 import { Storage } from "./storage"
 
@@ -28,58 +27,51 @@ async function start(): Promise<Storage> {
 
 	const storage = new Storage()
 
-	const getCurrentTime = () => {
-		const d = new Date()
-		return `[${dateFormat(d, "yyyy-mm-dd HH:MM:ss")}]`
-	}
-
 	const client = new tmi.client(tmiOptions)
 	client.connect()
 
 	client.on("logon", () => {
-		console.log(
-			`${getCurrentTime()} Connecting to the Twitch server as user "${user}"...`
-		)
+		storage.saveLog({
+			type: "logon",
+			message: `Connecting to the Twitch server as user "${user}"`,
+			time: new Date(),
+		})
 	})
 
 	client.on("join", (channel, username) => {
-		if (username == user) {
-			console.log(
-				`${getCurrentTime()} Joined channel "${channel.substring(1)}".`
-			)
-		}
-	})
-
-	client.on("subgift", (channel, username, _, recipient) => {
-		if (recipient.toLowerCase() == user) {
-			console.log(
-				`${getCurrentTime()} Received a subscription gift from user "${username}" in channel "${channel.substring(
-					1
-				)}"!`
-			)
-		}
+		storage.saveLog({
+			type: "join",
+			message: `user "${username}" joined channel "${channel.substring(
+				1
+			)}".`,
+			time: new Date(),
+		})
 	})
 
 	client.on("reconnect", () => {
-		console.log(
-			`${getCurrentTime()} Trying to reconnect to the Twitch server...`
-		)
+		storage.saveLog({
+			type: "reconnect",
+			message: `Trying to reconnect to the Twitch server`,
+			time: new Date(),
+		})
 	})
 
 	client.on("part", (channel, username) => {
-		if (username == user) {
-			console.log(
-				`${getCurrentTime()} Disconnected from channel "${channel.substring(
-					1
-				)}".`
-			)
-		}
+		storage.saveLog({
+			type: "part",
+			message: `user "${username}" disconnected from channel "${channel.substring(
+				1
+			)}".`,
+			time: new Date(),
+		})
 	})
 
 	client.on("disconnected", (reason) => {
-		console.log(
-			`${getCurrentTime()} Disconnected from the Twitch server. Reason: "${reason}".`
-		)
+		storage.saveLog({
+			type: "disconnect",
+			message: `Disconnected from the Twitch server. Reason: "${reason}".`,
+			time: new Date(),
+		})
 	})
 
 	client.on(

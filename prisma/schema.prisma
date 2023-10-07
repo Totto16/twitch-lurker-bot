@@ -21,3 +21,19 @@ model Message {
     user_id BigInt   @db.BigInt
     time    DateTime
 }
+
+enum LogType {
+    logon
+    reconnect
+    disconnect
+
+    join
+    part
+}
+
+model LogEvent {
+    id      BigInt   @id @default(autoincrement()) @db.BigInt
+    type    LogType
+    message String
+    time    DateTime
+}

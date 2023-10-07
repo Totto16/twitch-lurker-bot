@@ -27,4 +27,8 @@ export class Storage {
 			},
 		})
 	}
+
+	async saveLog(logEvent: Prisma.LogEventCreateInput) {
+		await this.prisma.logEvent.create({ data: logEvent })
+	}
 }

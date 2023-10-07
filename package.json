@@ -1,6 +1,6 @@
 {
   "name": "twitch-lurker-bot",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A simple Twitch.tv chat lurker bot",
   "author": "bartosjiri <hi@bartosjiri.com>",
   "license": "ISC",
@@ -9,6 +9,12 @@
     "start": "node .",
     "build": "tsc"
   },
+  "contributes": {
+    "name": "Totto16",
+    "email": "totto@totto.tk",
+    "url": "https://github.com/Totto16"
+  },
+  "homepage": "stegi-twitch.totto.tk",
   "keywords": [
     "twitch",
     "twitch.tv",
@@ -22,12 +28,10 @@
   ],
   "dependencies": {
     "@prisma/client": "^5.4.1",
-    "dateformat": "^4.4.1",
     "tmi.js": "1.8.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/dateformat": "^5.0.0",
     "@types/node": "^20.8.2",
     "@types/tmi.js": "^1.8.4",
     "prisma": "^5.4.1",
